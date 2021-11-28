@@ -18,7 +18,7 @@ for the options in `mpv.conf` and `input.conf`.
 * [mpv FAQ](https://github.com/mpv-player/mpv/wiki/FAQ)
 * [mpv manual](https://mpv.io/manual/master/)
 
-## Scripts Used
+## Scripts
 
 The scripts used:
 * [audio-visualizer](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/audio_visualizer.lua)  
