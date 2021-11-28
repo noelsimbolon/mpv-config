@@ -21,33 +21,33 @@ for the options in `mpv.conf` and `input.conf`.
 ## Scripts Used
 
 The scripts used:
-* [audio-visualizer](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/audio_visualizer.lua)
-  [original source](https://github.com/mfcc64/mpv-scripts#visualizerlua)
+* [audio-visualizer](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/audio_visualizer.lua)  
+  [original source](https://github.com/mfcc64/mpv-scripts#visualizerlua)  
   Various audio visualization. The default keybind to cycle visualizer is `c`. Note that by default, cycling audio visualizer
   by pressing `c` only works if you open audio files. If it's a video file, however, it triggers the [mpv_crop_script](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mpv_crop_script.lua).
   
-* [autoload](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/autoload.lua)
-  [original source](https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/autoload.lua)
+* [autoload](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/autoload.lua)  
+  [original source](https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/autoload.lua)  
   Automatically load playlist entries before and after the currently playing file, by scanning the directory.
 
-* [cycle-commands](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/cycle-commands.lua)
-  [original source](https://github.com/CogentRedTester/mpv-scripts#cycle-commands)
+* [cycle-commands](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/cycle-commands.lua)  
+  [original source](https://github.com/CogentRedTester/mpv-scripts#cycle-commands)  
   Cycles through a series of commands on a keypress. Each iteration of the cycle can contain as many commands as one wants. Syntax details are at the top of the file.
 
-* [cycle-profile](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/cycle-profile.lua)
-  [original source](https://github.com/CogentRedTester/mpv-scripts#cycle-profile)
+* [cycle-profile](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/cycle-profile.lua)  
+  [original source](https://github.com/CogentRedTester/mpv-scripts#cycle-profile)  
   Cycles through a list of profiles sent via a script message and prints the profile-desc to the OSD. More details at the top of the file.
 
-* [modernx](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mordenx.lua)
-  [original source](https://github.com/cyl0/mpv-osc-morden-x)
+* [modernx](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mordenx.lua)  
+  [original source](https://github.com/cyl0/mpv-osc-morden-x)  
   A modern OSC UI replacement for MPV that retains the functionality of the default OSC.
 
-* [mpv_crop_script](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mpv_crop_script.lua)
-  [original source](https://github.com/TheAMM/mpv_crop_script)
+* [mpv_crop_script](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mpv_crop_script.lua)  
+  [original source](https://github.com/TheAMM/mpv_crop_script)  
   Make cropped screenshots from within mpv, without any external dependencies, cross-platform-ly.
 
-* [playlistmanager](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/playlistmanager.lua)
-  [original source](https://github.com/jonniek/mpv-playlistmanager)
+* [playlistmanager](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/playlistmanager.lua)  
+  [original source](https://github.com/jonniek/mpv-playlistmanager)  
   Allows you to see and interact with your paylist in an intuitive way.
 
 Please do note that some of the scripts that I use are modified from the original source.
