@@ -52,7 +52,11 @@ The scripts used:
 
 Please do note that some of the scripts that I use are modified from the source, while some are not.
 
+## Usage
+
+To use these configuration files, just download this repo as a ZIP file, then drop `mpv.conf`, `input.conf`, `scripts` folder, and the `script-opts` folder to your `portable_config` folder. If you already have the `scripts` and `script-opts` folder, just drop the files you want to use to your folders.
+
 ## Downloads
 
 For semi-official builds and third-party packages of mpv, please see
-[mpv.io/installation](https://mpv.io/installation/).
+[mpv.io/installation](https://mpv.io/installation/).\
