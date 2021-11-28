@@ -14,6 +14,7 @@ for the options in `mpv.conf` and `input.conf`.
 
 ## Useful links
 
+* [mpv homepage](https://mpv.io/)  
 * [mpv wiki](https://github.com/mpv-player/mpv/wiki)
 * [mpv FAQ](https://github.com/mpv-player/mpv/wiki/FAQ)
 * [mpv manual](https://mpv.io/manual/master/)
