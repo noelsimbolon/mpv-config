@@ -24,8 +24,7 @@ for the options in `mpv.conf` and `input.conf`.
 The scripts used:
 * [audio-visualizer](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/audio_visualizer.lua) |
   [source](https://github.com/mfcc64/mpv-scripts#visualizerlua)\
-  Various audio visualization. The default keybind to cycle visualizer is `c`. Note that by default, cycling audio visualizer
-  by pressing `c` only works if you open audio files. If it's a video file, however, it triggers the [mpv_crop_script](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mpv_crop_script.lua).
+  Various audio visualization. The default keybind to cycle visualizer is `c`. Cycling audio visualizer by pressing `c` only works if you open audio files. If it's a video file, however, it triggers the [mpv_crop_script](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mpv_crop_script.lua).
   
 * [autoload](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/autoload.lua) |
   [source](https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/autoload.lua)\
