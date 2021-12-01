@@ -71,4 +71,4 @@ To use these configuration files, just download this repo as a ZIP file, then dr
 ## Downloads
 
 For semi-official builds and third-party packages of mpv, please see
-[mpv.io/installation](https://mpv.io/installation/).\
+[mpv.io/installation](https://mpv.io/installation/).
