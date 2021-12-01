@@ -38,7 +38,7 @@ The scripts used:
   [source](https://github.com/CogentRedTester/mpv-scripts#cycle-profile)\
   Cycles through a list of profiles sent via a script message and prints the profile-desc to the OSD. More details at the top of the file.
 
-* [modernx](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mordenx.lua) |
+* [mordenx](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mordenx.lua) |
   [source](https://github.com/cyl0/mpv-osc-morden-x)\
   A modern OSC UI replacement for MPV that retains the functionality of the default OSC.
 
@@ -51,6 +51,18 @@ The scripts used:
   Allows you to see and interact with your paylist in an intuitive way.
 
 Please do note that some of the scripts that I use are modified from the source, while some are not.
+
+## Shaders
+
+The shaders used:
+* [nnedi3-nns128-win8x4](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/nnedi3-nns128-win8x4.hook) |
+  [source](https://github.com/bjin/mpv-prescalers/tree/master)
+  
+* [SSimDownscaler](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/SSimDownscaler.glsl) | 
+  [source](https://gist.github.com/igv)
+
+* [KrigBilateral](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/KrigBilateral.glsl) | 
+  [source](https://gist.github.com/igv)
 
 ## Usage
 
