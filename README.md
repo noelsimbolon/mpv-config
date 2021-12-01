@@ -1,4 +1,4 @@
-# mpv Configurations and Scripts
+# mpv config
 
 ![mpv logo](https://raw.githubusercontent.com/mpv-player/mpv.io/master/source/images/mpv-logo-128.png)
 
@@ -7,8 +7,7 @@
 **mpv** is a free (as in freedom and free beer), open-source, and cross-platform media player. It supports
 a wide variety of media file formats, audio and video codecs, and subtitle types.
 
-These configuration and script files are meant to be put in a directory named `portable_config` next to `mpv.exe`
-so that all configurations will be loaded from said directory only. Please refer to the 
+These configuration and script files are meant to be put in the `config` or `portable_config` folder next to `mpv.exe`. The advantage of using `portable_config` folder is that all configurations will be loaded from said directory only. Please refer to the 
 [mpv manual](https://mpv.io/manual/master/) for further reading about these configuration files, especially
 for the options in `mpv.conf` and `input.conf`.
 
@@ -54,7 +53,10 @@ Please do note that some of the scripts that I use are modified from the source,
 
 ## Shaders
 
-The shaders used:
+The shaders present in the `shaders` folder:
+* [nnedi3-nns256-win8x4](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/nnedi3-nns256-win8x4.hook) |
+  [source](https://github.com/bjin/mpv-prescalers/tree/master)
+
 * [nnedi3-nns128-win8x4](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/nnedi3-nns128-win8x4.hook) |
   [source](https://github.com/bjin/mpv-prescalers/tree/master)
   
@@ -64,9 +66,13 @@ The shaders used:
 * [KrigBilateral](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/KrigBilateral.glsl) | 
   [source](https://gist.github.com/igv)
 
+I only use the `nnedi3-nns256-win8x4` shader, since it suits my system the best.
+
 ## Usage
 
-To use these configuration files, just download this repo as a ZIP file, then drop `mpv.conf`, `input.conf`, `scripts` folder, and the `script-opts` folder to your `portable_config` folder. If you already have the `scripts` and `script-opts` folder, just drop the files you want to use to your folders.
+To use these configuration files, just download this repo as a ZIP file and place everything except the `README.md` file to your `portable_config` or your `config` folder. You can modify the configurations based on your personal needs.
+
+Refer to the [mpv manual](https://mpv.io/manual/master/) and [this](https://iamscum.wordpress.com/guides/videoplayback-guide/mpv-conf/) helpful beginner's guide on how to personalize your own `mpv.conf`.
 
 ## Downloads
 
