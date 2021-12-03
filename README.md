@@ -61,11 +61,11 @@ The shaders present in the `shaders` folder:
   
 * [SSimDownscaler](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/SSimDownscaler.glsl) —
   [source](https://gist.github.com/igv)
-  
+
 * [KrigBilateral](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/KrigBilateral.glsl) —
   [source](https://gist.github.com/igv)
 
-You can tweak the use of shaders based on your system capabilites.
+Use shaders based on your system capabilities. For more info about shaders, check the useful links below.
 
 ## Usage
 
