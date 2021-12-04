@@ -49,7 +49,7 @@ The scripts used:
   [source](https://github.com/jonniek/mpv-playlistmanager)\
   Allows you to see and interact with your paylist in an intuitive way.
 
-Please do note that some of the scripts that I use are modified from the source, while some are not.
+Please note that some of the scripts that I use are modified from the source, while some are not.
 
 ## Shaders
 
