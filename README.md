@@ -17,7 +17,7 @@ for the options in `mpv.conf` and `input.conf`.
 ## Installation and Usage (in Windows)
 
 Here are the steps to install mpv and to use my configuration files in Windows:
-* Download the latest 64bit mpv Windows build by shinchiro from [here](https://sourceforge.net/projects/mpv-player-windows/files/) and extract it wherever you please. This is now your mpv folder
+* Download the latest 64bit mpv Windows build by shinchiro from [mpv.io/installation](https://mpv.io/installation/) or directly from [here](https://sourceforge.net/projects/mpv-player-windows/files/) and extract it wherever you please. This is now your mpv folder
 * Run `mpv-install.bat`, which is located in `installer` folder, with administrator priviledges by right-clicking and selecting Run as administrator
 * Download the ZIP file from [this repo's latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (this is important) and is located at the same directory as `mpv.exe`
 * To make `discord.lua` work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path to `mpv-discord.exe`. For example `binary_path=C:\Your\mpv\folder\path\portable_config\bin\mpv-discord.exe`
@@ -140,9 +140,3 @@ Use shaders based on your system capabilities. For more info about shaders, chec
 * [mpv wiki](https://github.com/mpv-player/mpv/wiki)
 * [mpv FAQ](https://github.com/mpv-player/mpv/wiki/FAQ)
 * [mpv manual](https://mpv.io/manual/master/)
-
-## Downloads
-
-For semi-official builds and third-party packages of mpv, please see
-[mpv.io/installation](https://mpv.io/installation/).
-
