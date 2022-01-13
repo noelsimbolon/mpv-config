@@ -7,7 +7,7 @@
 **mpv** is a free (as in freedom and free beer), open-source, and cross-platform media player. It supports
 a wide variety of media file formats, audio and video codecs, and subtitle types.
 
-These configuration and script files are meant to be put in the `config` or `portable_config` folder next to `mpv.exe`. The advantage of using `portable_config` folder is that all configurations will be loaded from said directory only. Please refer to the 
+These configuration and script files are meant to be put in a `portable_config` folder next to `mpv.exe`. The advantage of using `portable_config` folder is that all configurations will be loaded from said directory only. Please refer to the 
 [mpv manual](https://mpv.io/manual/master/) for further reading about these configuration files, especially
 for the options in `mpv.conf` and `input.conf`.
 
