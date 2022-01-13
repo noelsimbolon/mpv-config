@@ -81,8 +81,8 @@ After following the steps above (without the optional step), your mpv folder sho
 ## Useful Links
 
 * [mpv manual](https://mpv.io/manual/master/) is extremely useful for knowing what certain options do and what to put in mpv.conf
-* [mpv.conf guide](https://iamscum.wordpress.com/guides/videoplayback-guide/mpv-conf/) by iamscum
-* [mpv Configuration Guide for Watching Videos](https://kokomins.wordpress.com/2019/10/14/mpv-config-guide/) by Kokomins (I personally recommend this one over iamscum's)
+* [mpv.conf guide](https://iamscum.wordpress.com/guides/videoplayback-guide/mpv-conf/) by iamscum (I personally recommend this one over Kokomins')
+* [mpv Configuration Guide for Watching Videos](https://kokomins.wordpress.com/2019/10/14/mpv-config-guide/) by Kokomins
 * [Mathematically Evaluating mpv's Upscaling Algorithms](https://artoriuz.github.io/blog/mpv_upscaling.html) by João Vitor Chrisóstomo
 
 ## Scripts
