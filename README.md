@@ -105,11 +105,11 @@ Scripts used:
   Cycles through a list of profiles sent via a script message and prints the profile-desc to the OSD. More details at the top of the file.
 
 * [mpv-discord](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/discord.lua) —
-  [source](https://github.com/cyl0/mpv-osc-morden-x)\
+  [source](https://github.com/tnychn/mpv-discord)\
   A cross-platform Discord Rich Presence integration for mpv with no external dependencies. Consists of a Go binary for updating the presence and a Lua script for launching it.
 
 * [mordenx](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mordenx.lua) —
-  [source](https://github.com/tnychn/mpv-discord)\
+  [source](https://github.com/cyl0/mpv-osc-morden-x)\
   A modern OSC UI replacement for MPV that retains the functionality of the default OSC.
 
 * [playlistmanager](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/playlistmanager.lua) —
