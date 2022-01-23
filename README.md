@@ -14,14 +14,16 @@ for the options in `mpv.conf` and `input.conf`.
 ## Preview
 [![preview.png](https://i.postimg.cc/D030DGqD/preview.png)](https://postimg.cc/XGxnBp1c)
 
-## Installation and Usage (in Windows)
+## Installation (on Windows)
 
-Here are the steps to install mpv and to use my configuration files in Windows:
+Here are the steps to install mpv and to use my configuration files on Windows:
 * Download the latest 64bit mpv Windows build by shinchiro from [mpv.io/installation](https://mpv.io/installation/) or directly from [here](https://sourceforge.net/projects/mpv-player-windows/files/) and extract it wherever you please. This is now your mpv folder
 * Run `mpv-install.bat`, which is located in `installer` folder, with administrator priviledges by right-clicking and selecting Run as administrator
-* Download the ZIP file from [this repo's latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (this is important) and is located at the same directory as `mpv.exe`
-* To make `discord.lua` work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path to `mpv-discord.exe`. For example `binary_path=C:\Your\mpv\folder\path\portable_config\bin\mpv-discord.exe`
-* (Optional) Make your own mpv configuration. You can do that by modifying my configuration files and/or making your own from scratch. Check out the [useful links](#useful-links) section for mpv configuration guides.
+* Download the ZIP file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (this is important) and is located at the same directory as `mpv.exe`
+* To make some scripts work, you need to modify them from the release a little bit:
+  * For `discord.lua` to work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path to `mpv-discord.exe`. For example `binary_path="C:\YOUR\MPV\FOLDER\PATH\portable_config\bin\mpv-discord.exe"`
+  * (Optional) By default, the `mpv-gif.lua` script saves GIFs to `C:/Program Files/mpv/gifs`. To modify this, open `gif.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `dir`, which is output directory for GIFs, as you please. For example `dir="C:/Users/USERNAME/Pictures/mpv-gifs"`.
+* (Optional) Make your own mpv configuration. You can do that by modifying my configuration files and/or making your own from scratch or modifying others' configurations. Check out the [useful links](#useful-links) section for mpv configuration guides.
 * You are now a proud user of the best media player
 
 After following the steps above (without the optional step), your mpv folder should have this structure:
@@ -50,19 +52,21 @@ After following the steps above (without the optional step), your mpv folder sho
 │   │
 │   ├── script-opts                           # Contains configuration files for scripts
 │   │   ├── discord.conf
+│   │   ├── gif.conf
 │   │   └── osc.conf
 │   │
 │   ├── scripts
-│   │   ├── audio_visualizer.lua
+│   │   ├── audio_visualizer.lua              # Script to visualize audio playback when playing audio files
 │   │   ├── autoload.lua
 │   │   ├── cycle-commands.lua
 │   │   ├── cycle-profile.lua
-│   │   ├── discord.lua
-│   │   ├── mordenx.lua
+│   │   ├── discord.lua                       # Script for Discord rich presence
+│   │   ├── mordenx.lua                       # Script for modern OSC UI
+│   │   ├── mpv-gif.lua                       # Script to create GIFs
 │   │   └── playlistmanager.lua
 │   │
 │   ├── shaders                               # Contains external shaders
-│   │   ├── cache                             # This folder might not show at first
+│   │   ├── cache                             # Cause of gpu-shader-cache-dir='~~/shaders/cache' in mpv.conf (might not show at first)
 │   │   │   └── ...
 │   │   ├── FSRCNNX_x2_16-0-4-1.glsl
 │   │   ├── KrigBilateral.glsl
