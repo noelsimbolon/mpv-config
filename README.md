@@ -7,7 +7,7 @@
 **mpv** is a free (as in freedom and free beer), open-source, and cross-platform media player. It supports
 a wide variety of media file formats, audio and video codecs, and subtitle types.
 
-These configuration and script files are meant to be put in a `portable_config` folder next to `mpv.exe`. The advantage of using `portable_config` folder is that all configurations will be loaded from said directory only. Please refer to the 
+These configuration and script files are meant to be put in a `portable_config` folder in the same directory as `mpv.exe`. The advantage of using `portable_config` folder is that all configurations will be loaded from said directory only. Please refer to the 
 [mpv manual](https://mpv.io/manual/master/) for further reading about these configuration files, especially
 for the options in `mpv.conf` and `input.conf`.
 
@@ -108,6 +108,10 @@ Scripts used:
 * [mordenx](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mordenx.lua) —
   [source](https://github.com/cyl0/mpv-osc-morden-x)\
   A modern OSC UI replacement for MPV that retains the functionality of the default OSC.
+
+* [mpv-gif](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mpv-gif.lua) —
+  [source](https://github.com/Scheliux/mpv-gif-generator)\
+  Script to generate GIFs from video playback. Requires FFmpeg with libass enabled. The exporting GIFs with subtitled currently doesn't work properly.
 
 * [playlistmanager](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/playlistmanager.lua) —
   [source](https://github.com/jonniek/mpv-playlistmanager)\
