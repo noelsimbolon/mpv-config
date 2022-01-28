@@ -12,7 +12,7 @@ These configuration and script files are meant to be put in a `portable_config` 
 for the options in `mpv.conf` and `input.conf`.
 
 ## Preview
-[![preview.png](https://i.postimg.cc/D030DGqD/preview.png)](https://postimg.cc/XGxnBp1c)
+[![preview.png](https://i.postimg.cc/9MrPx5X6/preview.png)](https://postimg.cc/N9vrMnHD)
 
 ## Installation (on Windows)
 
@@ -22,6 +22,7 @@ Here are the steps to install mpv and to use my configuration files on Windows:
 * Download the ZIP file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (this is important) and is located at the same directory as `mpv.exe`
 * To make some scripts work, you need to modify them from the release a little bit:
   * For `discord.lua` to work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path to `mpv-discord.exe`. For example `binary_path=C:\YOUR\MPV\FOLDER\PATH\portable_config\bin\mpv-discord.exe`
+  * In order for the `mpv-gif.lua` script to work, it requires [FFmpeg](https://ffmpeg.org/) with libass enabled and accessible via terminal. See the [installation instructions](https://github.com/Scheliux/mpv-gif-generator#installation) from the script's source repository for further info.
   * (Optional) By default, the `mpv-gif.lua` script saves GIFs to `C:/Program Files/mpv/gifs`. To modify this, open `gif.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `dir`, which is output directory for GIFs, as you please. For example `dir="C:/Users/USERNAME/Pictures/mpv-gifs"`.
 * (Optional) Make your own mpv configuration. You can do that by modifying my configuration files and/or making your own from scratch or modifying others' configurations. Check out the [useful links](#useful-links) section for mpv configuration guides.
 * You are now a proud user of the best media player
