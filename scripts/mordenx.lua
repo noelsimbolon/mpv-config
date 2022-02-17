@@ -26,7 +26,7 @@ local user_opts = {
                                 -- mouse movement. enforced non-negative for the
                                 -- user, but internally negative is 'always-on'.
     fadeduration = 250,         -- duration of fade out in ms, 0 = no fade
-    minmousemove = 2,           -- minimum amount of pixels the mouse has to
+    minmousemove = 1,           -- minimum amount of pixels the mouse has to
                                 -- move between ticks to make the OSC show up
     iamaprogrammer = false,     -- use native mpv values and disable OSC
                                 -- internal track list management (and some
@@ -36,6 +36,13 @@ local user_opts = {
     seekrange = true,		    -- show seekrange overlay
     seekrangealpha = 64,      	-- transparency of seekranges
     seekbarkeyframes = true,    -- use keyframes when dragging the seekbar
+    showjump = true,            -- show "jump forward/backward 5 seconds" buttons 
+                                -- shift+left-click to step 1 frame and 
+                                -- right-click to jump 1 minute
+    jumpamount = 5,             -- change the jump amount (in seconds by default)
+    jumpiconnumber = true,      -- show different icon when jumpamount is 5, 10, or 30
+    jumpmode = 'exact',         -- seek mode for jump buttons. e.g.
+                                -- 'exact', 'relative+keyframes', etc.
     title = '${media-title}',   -- string compatible with property-expansion
                                 -- to be shown as OSC title
     showtitle = true,		    -- show title in OSC
@@ -45,7 +52,16 @@ local user_opts = {
     visibility = 'auto',        -- only used at init to set visibility_mode(...)
     windowcontrols = 'auto',    -- whether to show window controls
     language = 'eng',		    -- eng=English, chs=Chinese
+    chapter_fmt = "Chapter: %s",  -- chapter print format for seekbar-hover. "no" to disable
 }
+
+-- Icons for jump button depending on jumpamount 
+local jumpicons = { 
+    [5] = {'\xEF\x8E\xB1', '\xEF\x8E\xA3'}, 
+    [10] = {'\xEF\x8E\xAF', '\xEF\x8E\xA1'}, 
+    [30] = {'\xEF\x8E\xB0', '\xEF\x8E\xA2'}, 
+    default = {'\xEF\x8E\xB2', '\xEF\x8E\xB2'}, -- second icon is mirrored in layout() 
+} 
 
 -- Localization
 local language = {
@@ -98,6 +114,7 @@ local osc_styles = {
     SeekbarFg = '{\\blur1\\bord1\\1c&HE39C42&}',
     Ctrl1 = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs36\\fnmaterial-design-iconic-font}',
     Ctrl2 = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs24\\fnmaterial-design-iconic-font}',
+    Ctrl2Flip = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs24\\fnmaterial-design-iconic-font\\fry180',
     Ctrl3 = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs24\\fnmaterial-design-iconic-font}',
     Time = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&H000000&\\fs17\\fn' .. user_opts.font .. '}',
     Tooltip = '{\\blur1\\bord0.5\\1c&HFFFFFF&\\3c&H000000&\\fs18\\fn' .. user_opts.font .. '}',
@@ -138,6 +155,7 @@ local state = {
     osd = mp.create_osd_overlay('ass-events'),
     lastvisibility = user_opts.visibility,	-- save last visibility on pause if showonpause
     fulltime = user_opts.timems,
+    chapter_list = {},                      -- sorted by time
 }
 
 local window_control_box_width = 138
@@ -544,13 +562,46 @@ function prepare_elements()
             element.layout.alpha[1] = 136
             element.eventresponder = nil
         end
+        -- gray out the element if it is toggled off
+        if (element.off) then
+            element.layout.alpha[1] = 136
+        end
+
     end
 end
 
 --
 -- Element Rendering
 --
+
+-- returns nil or a chapter element from the native property chapter-list
+function get_chapter(possec)
+    local cl = state.chapter_list  -- sorted, get latest before possec, if any
+
+    for n=#cl,1,-1 do
+        if possec >= cl[n].time then
+            return cl[n]
+        end
+    end
+end
+
 function render_elements(master_ass)
+
+    -- when the slider is dragged or hovered and we have a target chapter name
+    -- then we use it instead of the normal title. we calculate it before the
+    -- render iterations because the title may be rendered before the slider.
+    state.forced_title = nil
+    local se, ae = state.slider_element, elements[state.active_element]
+    if user_opts.chapter_fmt ~= "no" and se and (ae == se or (not ae and mouse_hit(se))) then
+        local dur = mp.get_property_number("duration", 0)
+        if dur > 0 then
+            local possec = get_slider_value(se) * dur / 100 -- of mouse pos
+            local ch = get_chapter(possec)
+            if ch and ch.title and ch.title ~= "" then
+                state.forced_title = string.format(user_opts.chapter_fmt, ch.title)
+            end
+        end
+    end
 
     for n=1, #elements do
         local element = elements[n]
@@ -1042,27 +1093,45 @@ layouts = function ()
     lo.slider.gap = 7
     lo.slider.tooltip_style = osc_styles.Tooltip
     lo.slider.tooltip_an = 2
+
+    local showjump = user_opts.showjump
+    local offset = showjump and 60 or 0
     
 	-- buttons
     lo = add_layout('pl_prev')
-    lo.geometry = {x = refX - 120, y = refY - 40 , an = 5, w = 30, h = 24}
+    lo.geometry = {x = refX - 120 - offset, y = refY - 40 , an = 5, w = 30, h = 24}
     lo.style = osc_styles.Ctrl2
 
 	lo = add_layout('skipback')
-    lo.geometry = {x = refX - 60, y = refY - 40 , an = 5, w = 30, h = 24}
+    lo.geometry = {x = refX - 60 - offset, y = refY - 40 , an = 5, w = 30, h = 24}
     lo.style = osc_styles.Ctrl2
 
+
+    if showjump then
+        lo = add_layout('jumpback')
+        lo.geometry = {x = refX - 60, y = refY - 40 , an = 5, w = 30, h = 24}
+        lo.style = osc_styles.Ctrl2
+    end
 			
     lo = add_layout('playpause')
     lo.geometry = {x = refX, y = refY - 40 , an = 5, w = 45, h = 45}
     lo.style = osc_styles.Ctrl1	
 
+    if showjump then
+        lo = add_layout('jumpfrwd')
+        lo.geometry = {x = refX + 60, y = refY - 40 , an = 5, w = 30, h = 24}
+
+        -- HACK: jumpfrwd's icon must be mirrored for nonstandard # of seconds
+        -- as the font only has an icon without a number for rewinding
+        lo.style = (user_opts.jumpiconnumber and jumpicons[user_opts.jumpamount] ~= nil) and osc_styles.Ctrl2 or osc_styles.Ctrl2Flip
+    end
+
     lo = add_layout('skipfrwd')
-    lo.geometry = {x = refX + 60, y = refY - 40 , an = 5, w = 30, h = 24}
+    lo.geometry = {x = refX + 60 + offset, y = refY - 40 , an = 5, w = 30, h = 24}
     lo.style = osc_styles.Ctrl2	
 
     lo = add_layout('pl_next')
-    lo.geometry = {x = refX + 120, y = refY - 40 , an = 5, w = 30, h = 24}
+    lo.geometry = {x = refX + 120 + offset, y = refY - 40 , an = 5, w = 30, h = 24}
     lo.style = osc_styles.Ctrl2
 
 
@@ -1115,6 +1184,7 @@ function update_options(list)
     validate_user_opts()
     request_tick()
     visibility_mode(user_opts.visibility, true)
+    update_duration_watch()
     request_init()
 end
 
@@ -1202,6 +1272,45 @@ function osc_init()
     --ne.eventresponder['mbtn_right_up'] =
     --    function () mp.commandv('script-binding', 'open-file-dialog') end
 
+    if user_opts.showjump then
+        local jumpamount = user_opts.jumpamount
+        local jumpmode = user_opts.jumpmode
+        local icons = jumpicons.default
+        if user_opts.jumpiconnumber then
+            icons = jumpicons[jumpamount] or jumpicons.default
+        end
+
+        --jumpback
+        ne = new_element('jumpback', 'button')
+
+        ne.softrepeat = true
+        ne.content = icons[1]
+        ne.eventresponder['mbtn_left_down'] =
+            --function () mp.command('seek -5') end
+            function () mp.commandv('seek', -jumpamount, jumpmode) end
+        ne.eventresponder['shift+mbtn_left_down'] =
+            function () mp.commandv('frame-back-step') end
+        ne.eventresponder['mbtn_right_down'] =
+            --function () mp.command('seek -60') end
+            function () mp.commandv('seek', -60, jumpmode) end
+
+
+        --jumpfrwd
+        ne = new_element('jumpfrwd', 'button')
+
+        ne.softrepeat = true
+        ne.content = icons[2]
+        ne.eventresponder['mbtn_left_down'] =
+            --function () mp.command('seek +5') end
+            function () mp.commandv('seek', jumpamount, jumpmode) end
+        ne.eventresponder['shift+mbtn_left_down'] =
+            function () mp.commandv('frame-step') end
+        ne.eventresponder['mbtn_right_down'] =
+            --function () mp.command('seek +60') end
+            function () mp.commandv('seek', 60, jumpmode) end
+    end
+    
+
     --skipback
     ne = new_element('skipback', 'button')
 
@@ -1242,6 +1351,7 @@ function osc_init()
     --cy_audio
     ne = new_element('cy_audio', 'button')
     ne.enabled = (#tracks_osc.audio > 0)
+    ne.off = (get_track('audio') == 0)
     ne.visible = (osc_param.playresx >= 540)
     ne.content = '\xEF\x8E\xB7'
     ne.tooltip_style = osc_styles.Tooltip
@@ -1272,6 +1382,7 @@ function osc_init()
     --cy_sub
     ne = new_element('cy_sub', 'button')
     ne.enabled = (#tracks_osc.sub > 0)
+    ne.off = (get_track('sub') == 0)
     ne.visible = (osc_param.playresx >= 600)
     ne.content = '\xEF\x8F\x93'
     ne.tooltip_style = osc_styles.Tooltip
@@ -1322,7 +1433,8 @@ function osc_init()
     -- title
     ne = new_element('title', 'button')
     ne.content = function ()
-		local title = mp.command_native({'expand-text', user_opts.title})
+        local title = state.forced_title or
+                      mp.command_native({"expand-text", user_opts.title})
         if state.paused then
 			title = title:gsub('\\n', ' '):gsub('\\$', ''):gsub('{','\\{')
 		else
@@ -1336,6 +1448,7 @@ function osc_init()
     ne = new_element('seekbar', 'slider')
 
     ne.enabled = not (mp.get_property('percent-pos') == nil)
+    state.slider_element = ne.enabled and ne or nil  -- used for forced_title
     ne.slider.markerF = function ()
         local duration = mp.get_property_number('duration', nil)
         if not (duration == nil) then
@@ -1530,6 +1643,7 @@ end
 
 function pause_state(name, enabled)
     state.paused = enabled
+    mp.add_timeout(0.1, function() state.osd:update() end) 
     if user_opts.showonpause then
 		if enabled then
 			state.lastvisibility = user_opts.visibility
@@ -1901,7 +2015,17 @@ function tick()
     state.tick_last_time = mp.get_time()
 
     if state.anitype ~= nil then
-        request_tick()
+        -- state.anistart can be nil - animation should now start, or it can
+        -- be a timestamp when it started. state.idle has no animation.
+        if not state.idle and
+           (not state.anistart or
+            mp.get_time() < 1 + state.anistart + user_opts.fadeduration/1000)
+        then
+            -- animating or starting, or still within 1s past the deadline
+            request_tick()
+        else
+            kill_animation()
+        end
     end
 end
 
@@ -1929,12 +2053,42 @@ function enable_osc(enable)
     end
 end
 
+-- duration is observed for the sole purpose of updating chapter markers
+-- positions. live streams with chapters are very rare, and the update is also
+-- expensive (with request_init), so it's only observed when we have chapters
+-- and the user didn't disable the livemarkers option (update_duration_watch).
+function on_duration() request_init() end
+
+local duration_watched = false
+function update_duration_watch()
+    local want_watch = user_opts.livemarkers and
+                       (mp.get_property_number("chapters", 0) or 0) > 0 and
+                       true or false  -- ensure it's a boolean
+
+    if (want_watch ~= duration_watched) then
+        if want_watch then
+            mp.observe_property("duration", nil, on_duration)
+        else
+            mp.unobserve_property(on_duration)
+        end
+        duration_watched = want_watch
+    end
+end
+
 validate_user_opts()
+update_duration_watch()
 
 mp.register_event('shutdown', shutdown)
 mp.register_event('start-file', request_init)
 mp.observe_property('track-list', nil, request_init)
 mp.observe_property('playlist', nil, request_init)
+mp.observe_property("chapter-list", "native", function(_, list)
+    list = list or {}  -- safety, shouldn't return nil
+    table.sort(list, function(a, b) return a.time < b.time end)
+    state.chapter_list = list
+    update_duration_watch()
+    request_init()
+end)
 
 mp.register_script_message('osc-message', show_message)
 mp.register_script_message('osc-chapterlist', function(dur)
@@ -2002,17 +2156,21 @@ do_enable_keybindings()
 
 --mouse input bindings
 mp.set_key_bindings({
-    {'mbtn_left',           function(e) process_event('mbtn_left', 'up') end,
-                            function(e) process_event('mbtn_left', 'down')  end},
-    {'mbtn_right',          function(e) process_event('mbtn_right', 'up') end,
-                            function(e) process_event('mbtn_right', 'down')  end},
-    {'mbtn_mid',            function(e) process_event('mbtn_mid', 'up') end,
-                            function(e) process_event('mbtn_mid', 'down')  end},
-    {'wheel_up',            function(e) process_event('wheel_up', 'press') end},
-    {'wheel_down',          function(e) process_event('wheel_down', 'press') end},
-    {'mbtn_left_dbl',       'ignore'},
-    {'mbtn_right_dbl',      'ignore'},
-}, 'input', 'force')
+    {"mbtn_left",           function(e) process_event("mbtn_left", "up") end,
+                            function(e) process_event("mbtn_left", "down")  end},
+    {"shift+mbtn_left",     function(e) process_event("shift+mbtn_left", "up") end,
+                            function(e) process_event("shift+mbtn_left", "down")  end},
+    {"mbtn_right",          function(e) process_event("mbtn_right", "up") end,
+                            function(e) process_event("mbtn_right", "down")  end},
+    -- alias to shift_mbtn_left for single-handed mouse use
+    {"mbtn_mid",            function(e) process_event("shift+mbtn_left", "up") end,
+                            function(e) process_event("shift+mbtn_left", "down")  end},
+    {"wheel_up",            function(e) process_event("wheel_up", "press") end},
+    {"wheel_down",          function(e) process_event("wheel_down", "press") end},
+    {"mbtn_left_dbl",       "ignore"},
+    {"shift+mbtn_left_dbl", "ignore"},
+    {"mbtn_right_dbl",      "ignore"},
+}, "input", "force")
 mp.enable_key_bindings('input')
 
 mp.set_key_bindings({
