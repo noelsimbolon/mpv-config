@@ -184,7 +184,8 @@ function file_exists(name)
     if f~=nil then io.close(f) return true else return false end
 end
 
-mp.add_key_binding("b", "set_gif_start", set_gif_start)
-mp.add_key_binding("B", "set_gif_end", set_gif_end)
-mp.add_key_binding("Ctrl+b", "make_gif", make_gif)
-mp.add_key_binding("Ctrl+B", "make_gif_with_subtitles", make_gif_with_subtitles)
+-- all keybindings are overridden in input.conf
+mp.add_key_binding("g", "set_gif_start", set_gif_start)
+mp.add_key_binding("G", "set_gif_end", set_gif_end)
+mp.add_key_binding("Ctrl+g", "make_gif", make_gif)
+mp.add_key_binding("Ctrl+G", "make_gif_with_subtitles", make_gif_with_subtitles)  -- making GIFs with subtitles doesn't seem to work

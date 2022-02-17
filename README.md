@@ -12,7 +12,7 @@ These configuration and script files are meant to be put in a `portable_config` 
 for the options in `mpv.conf` and `input.conf`.
 
 ## Preview
-[![preview.png](https://i.postimg.cc/9MrPx5X6/preview.png)](https://postimg.cc/N9vrMnHD)
+[![preview.png](https://i.postimg.cc/8PpZnf4D/preview.png)](https://postimg.cc/MXL0nTgr)
 
 ## Installation (on Windows)
 
@@ -59,12 +59,14 @@ After following the steps above (without the optional step), your mpv folder sho
 │   ├── scripts
 │   │   ├── audio_visualizer.lua              # Script to visualize audio playback when playing audio files
 │   │   ├── autoload.lua
+│   │   ├── copy-time.lua
 │   │   ├── cycle-commands.lua
 │   │   ├── cycle-profile.lua
 │   │   ├── discord.lua                       # Script for Discord rich presence
 │   │   ├── mordenx.lua                       # Script for modern OSC UI
 │   │   ├── mpv-gif.lua                       # Script to create GIFs
-│   │   └── playlistmanager.lua
+│   │   ├── playlistmanager.lua
+│   │   └── seek-to.lua
 │   │
 │   ├── shaders                               # Contains external shaders
 │   │   ├── cache                             # Cause of gpu-shader-cache-dir='~~/shaders/cache' in mpv.conf (might not show at first)
@@ -86,39 +88,46 @@ After following the steps above (without the optional step), your mpv folder sho
 ## Scripts
 
 Scripts used:
-* [audio-visualizer](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/audio_visualizer.lua) —
+* [audio-visualizer.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/audio_visualizer.lua) —
   [source](https://github.com/mfcc64/mpv-scripts#visualizerlua)\
   Various audio visualization. The default keybind to cycle visualizer is <kbd>c</kbd>. It only works if you open audio files.
   
-* [autoload](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/autoload.lua) —
+* [autoload.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/autoload.lua) —
   [source](https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/autoload.lua)\
   Automatically load playlist entries before and after the currently playing file, by scanning the directory.
 
-* [cycle-commands](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/cycle-commands.lua) —
+* [copy-time.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/copy-time.lua) — [source](https://github.com/linguisticmind/mpv-scripts/tree/master/copy-time)\
+  Copies current timecode in HH:MM:SS.MS format to clipboard. Cross-platform (Mac, Windows, Linux).
+
+* [cycle-commands.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/cycle-commands.lua) —
   [source](https://github.com/CogentRedTester/mpv-scripts#cycle-commands)\
   Cycles through a series of commands on a keypress. Each iteration of the cycle can contain as many commands as one wants. Syntax details are at the top of the file.
 
-* [cycle-profile](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/cycle-profile.lua) —
+* [cycle-profile.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/cycle-profile.lua) —
   [source](https://github.com/CogentRedTester/mpv-scripts#cycle-profile)\
   Cycles through a list of profiles sent via a script message and prints the profile-desc to the OSD. More details at the top of the file.
 
-* [mpv-discord](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/discord.lua) —
+* [mpv-discord.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/discord.lua) —
   [source](https://github.com/tnychn/mpv-discord)\
   A cross-platform Discord Rich Presence integration for mpv with no external dependencies. Consists of a Go binary for updating the presence and a Lua script for launching it.
 
-* [mordenx](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mordenx.lua) —
+* [mordenx.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mordenx.lua) —
   [source](https://github.com/cyl0/mpv-osc-morden-x)\
   A modern OSC UI replacement for MPV that retains the functionality of the default OSC.
 
-* [mpv-gif](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mpv-gif.lua) —
+* [mpv-gif.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/mpv-gif.lua) —
   [source](https://github.com/Scheliux/mpv-gif-generator)\
   Script to generate GIFs from video playback. Requires FFmpeg with libass enabled. The exporting GIFs with subtitled currently doesn't work properly.
 
-* [playlistmanager](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/playlistmanager.lua) —
+* [playlistmanager.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/playlistmanager.lua) —
   [source](https://github.com/jonniek/mpv-playlistmanager)\
   Allows you to see and interact with your paylist in an intuitive way.
 
-Configuration files for these scripts can be found in the `script-opts` folder.
+* [seek-to.lua](https://github.com/noelsimbolon/mpv-config/blob/main/scripts/seek-to.lua) —
+  [source](https://github.com/dexeonify/mpv-config/blob/main/scripts/seek-to.lua)\
+  Seek to an absolute timestamp specified via keyboard input or pasted from clipboard.
+
+Configuration files for these scripts can be found in the `script-opts` folder. I also modified some of these scripts' default keybindings. To see my modifications, look for script keybindings in `input.conf`.
 
 ## Shaders
 
