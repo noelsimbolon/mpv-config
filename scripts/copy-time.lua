@@ -34,4 +34,5 @@ function copy_time()
   mp.osd_message(string.format("Copied to clipboard: %s", time))
 end
 
-mp.add_key_binding("Ctrl+Alt+c", "copy-time", copy_time)
+-- the keybinding here is set to nil on purpose 'cause I modified the keybinding (in input.conf)
+mp.add_key_binding(nil", "copy-time", copy_time)
