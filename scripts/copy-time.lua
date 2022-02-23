@@ -35,4 +35,4 @@ function copy_time()
 end
 
 -- the keybinding here is set to nil on purpose 'cause I modified the keybinding (in input.conf)
-mp.add_key_binding(nil", "copy-time", copy_time)
+mp.add_key_binding(nil, "copy-time", copy_time)
