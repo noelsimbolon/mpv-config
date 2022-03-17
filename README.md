@@ -131,12 +131,15 @@ Configuration files for these scripts can be found in the `script-opts` folder. 
 
 ## Shaders
 
-The shaders present in the `shaders` folder:
+The shaders included in the `shaders` folder:
 
 * [FSRCNNX_x2_16-0-4-1](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/FSRCNNX_x2_16-0-4-1.glsl) — [source](https://github.com/igv/FSRCNN-TensorFlow/releases)\
   Used for luma upscaling.
   
 * [nnedi3-nns256-win8x4](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/nnedi3-nns256-win8x4.hook) — [source](https://github.com/bjin/mpv-prescalers/tree/master)\
+  Used for luma upscaling.
+
+* [nnedi3-nns128-win8x4](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/nnedi3-nns128-win8x4.hook) — [source](https://github.com/bjin/mpv-prescalers/tree/master)\
   Used for luma upscaling.
   
 * [SSimDownscaler](https://github.com/noelsimbolon/mpv-config/blob/main/shaders/SSimDownscaler.glsl) —
@@ -151,7 +154,7 @@ Use shaders based on your preference and system capabilities. For more info abou
 
 ## Useful Links
 
-* [mpv manual](https://mpv.io/manual/master/) is extremely useful for knowing what certain options do and what to put in mpv.conf
+* [mpv manual](https://mpv.io/manual/master/) is extremely useful for knowing what certain options do and what to put in `mpv.conf`
 * [mpv.conf guide](https://iamscum.wordpress.com/guides/videoplayback-guide/mpv-conf/) by iamscum (I personally recommend this one over Kokomins')
 * [mpv Configuration Guide for Watching Videos](https://kokomins.wordpress.com/2019/10/14/mpv-config-guide/) by Kokomins
 * [Mathematically Evaluating mpv's Upscaling Algorithms](https://artoriuz.github.io/blog/mpv_upscaling.html) by João Vitor Chrisóstomo
