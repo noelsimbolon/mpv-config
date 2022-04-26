@@ -165,3 +165,7 @@ Use shaders based on your preference and system capabilities. For more info abou
 * [mpv wiki](https://github.com/mpv-player/mpv/wiki)
 * [mpv FAQ](https://github.com/mpv-player/mpv/wiki/FAQ)
 * [mpv manual](https://mpv.io/manual/master/)
+
+## To Do
+
+* Create a branch for configurations to be used in linux-based machines
