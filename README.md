@@ -168,4 +168,4 @@ Use shaders based on your preference and system capabilities. For more info abou
 
 ## To Do
 
-* Create a branch for configurations to be used in linux-based machines
+- [x] Create a branch for configurations to be used in linux-based machines
