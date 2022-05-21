@@ -7,9 +7,7 @@
 **mpv** is a free (as in freedom and free beer), open-source, and cross-platform media player. It supports
 a wide variety of media file formats, audio and video codecs, and subtitle types.
 
-These configuration and script files are meant to be put in a `portable_config` folder in the same directory as `mpv.exe`. The advantage of using `portable_config` folder is that all configurations will be loaded from said directory only. Please refer to the 
-[mpv manual](https://mpv.io/manual/master/) for further reading about these configuration files, especially
-for the options in `mpv.conf` and `input.conf`.
+These are my personal configurations and scripts that are significantly better than default mpv, VLC, and MPC. Before installing, please take your time to read this whole README as common issues can be easily solved by doing this.
 
 ## Preview
 
@@ -20,7 +18,7 @@ for the options in `mpv.conf` and `input.conf`.
 Here are the steps to install mpv and to use my configuration files on Windows:
 * Download the latest 64bit mpv Windows build by shinchiro from [mpv.io/installation](https://mpv.io/installation/) or directly from [here](https://sourceforge.net/projects/mpv-player-windows/files/) and extract it wherever you please. This is now your mpv folder
 * Run `mpv-install.bat`, which is located in `installer` folder, with administrator priviledges by right-clicking and selecting Run as administrator
-* Download the `windows.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (this is important) and is located at the same directory as `mpv.exe`
+* Download the `windows.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (**this is important**) and is located at the same directory as `mpv.exe`
 * To make some scripts work, you need to modify them from the release a little bit:
   * For `discord.lua` to work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path (not a relative path) to `mpv-discord.exe`. For example `binary_path=C:\YOUR\MPV\FOLDER\PATH\portable_config\bin\mpv-discord.exe`. Make sure you're not using any quotation marks before and after the path.
   * In order for the `mpv-gif.lua` script to work, it requires [FFmpeg](https://ffmpeg.org/) with libass enabled and accessible via terminal. See the [installation instructions](https://github.com/Scheliux/mpv-gif-generator#installation) from the script's source repository for further info.
@@ -171,8 +169,12 @@ Use shaders based on your preference and system capabilities. For more info abou
 
 ## Useful Links
 
-* [mpv manual](https://mpv.io/manual/master/) is extremely useful for knowing what certain options do and what to put in `mpv.conf`
-* [mpv.conf guide](https://iamscum.wordpress.com/guides/videoplayback-guide/mpv-conf/) by iamscum (I personally recommend this one over Kokomins')
+* [mpv manual](https://mpv.io/manual/master/)\
+  Extremely useful for knowing what certain options do and what to put in `mpv.conf`
+* [mpv User Scripts](https://github.com/mpv-player/mpv/wiki/User-Scripts)\
+  Compilation of useful community-published scripts to be used with mpv
+* [mpv.conf guide](https://iamscum.wordpress.com/guides/videoplayback-guide/mpv-conf/) by iamscum\
+  I personally recommend this one over Kokomins'
 * [mpv Configuration Guide for Watching Videos](https://kokomins.wordpress.com/2019/10/14/mpv-config-guide/) by Kokomins
 * [Mathematically Evaluating mpv's Upscaling Algorithms](https://artoriuz.github.io/blog/mpv_upscaling.html) by João Vitor Chrisóstomo
 
