@@ -7,9 +7,7 @@
 **mpv** is a free (as in freedom and free beer), open-source, and cross-platform media player. It supports
 a wide variety of media file formats, audio and video codecs, and subtitle types.
 
-These configuration and script files are meant to be put in a `portable_config` folder in the same directory as `mpv.exe`. The advantage of using `portable_config` folder is that all configurations will be loaded from said directory only. Please refer to the 
-[mpv manual](https://mpv.io/manual/master/) for further reading about these configuration files, especially
-for the options in `mpv.conf` and `input.conf`.
+These are my personal mpv configurations and scripts that I use and are significantly better than default mpv, VLC, and MPC. Before installing, please take your time to read this whole README as common issues can be easily solved by doing this.
 
 ## Preview
 
@@ -171,8 +169,12 @@ Use shaders based on your preference and system capabilities. For more info abou
 
 ## Useful Links
 
-* [mpv manual](https://mpv.io/manual/master/) is extremely useful for knowing what certain options do and what to put in `mpv.conf`
-* [mpv.conf guide](https://iamscum.wordpress.com/guides/videoplayback-guide/mpv-conf/) by iamscum (I personally recommend this one over Kokomins')
+* [mpv manual](https://mpv.io/manual/master/)\
+  Extremely useful for knowing what certain options do and what to put in `mpv.conf`
+* [mpv User Scripts](https://github.com/mpv-player/mpv/wiki/User-Scripts)\
+  Compilation of useful community-published scripts to be used with mpv
+* [mpv.conf guide](https://iamscum.wordpress.com/guides/videoplayback-guide/mpv-conf/) by iamscum\
+  I personally recommend this one over Kokomins'
 * [mpv Configuration Guide for Watching Videos](https://kokomins.wordpress.com/2019/10/14/mpv-config-guide/) by Kokomins
 * [Mathematically Evaluating mpv's Upscaling Algorithms](https://artoriuz.github.io/blog/mpv_upscaling.html) by João Vitor Chrisóstomo
 
