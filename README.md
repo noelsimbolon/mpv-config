@@ -7,24 +7,26 @@
 **mpv** is a free (as in freedom and free beer), open-source, and cross-platform media player. It supports
 a wide variety of media file formats, audio and video codecs, and subtitle types.
 
-These are my personal mpv configurations and scripts that I use and are significantly better than default mpv, VLC, and MPC. Before installing, please take your time to read this whole README as common issues can be easily solved by doing this.
+This repo contains my personal mpv configurations and scripts that I use and are significantly better than default mpv, VLC, and MPC. Before installing, please take your time to read this whole README as common issues can be easily solved by simply reading carefully.
+
 
 ## Preview
 
-[![preview.png](https://i.postimg.cc/8PpZnf4D/preview.png)](https://postimg.cc/MXL0nTgr)
+[![preview.png](https://i.postimg.cc/4yXJCQr2/preview.png)](https://postimg.cc/ZBDkppY6)
+[![preview-2.png](https://i.postimg.cc/Kvy92sp8/preview-2.png)](https://postimg.cc/K4J77Qy6)
 
 ## Installation (on Windows)
 
 Here are the steps to install mpv and to use my configuration files on Windows:
 * Download the latest 64bit mpv Windows build by shinchiro from [mpv.io/installation](https://mpv.io/installation/) or directly from [here](https://sourceforge.net/projects/mpv-player-windows/files/) and extract it wherever you please. This is now your mpv folder
 * Run `mpv-install.bat`, which is located in `installer` folder, with administrator priviledges by right-clicking and selecting Run as administrator
-* Download the `windows.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (this is important) and is located at the same directory as `mpv.exe`
+* Download the `windows.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (**this is important**) and is located at the same directory as `mpv.exe`
 * To make some scripts work, you need to modify them from the release a little bit:
   * For `discord.lua` to work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path (not a relative path) to `mpv-discord.exe`. For example `binary_path=C:\YOUR\MPV\FOLDER\PATH\portable_config\bin\mpv-discord.exe`. Make sure you're not using any quotation marks before and after the path.
   * In order for the `mpv-gif.lua` script to work, it requires [FFmpeg](https://ffmpeg.org/) with libass enabled and accessible via terminal. See the [installation instructions](https://github.com/Scheliux/mpv-gif-generator#installation) from the script's source repository for further info.
   * **(Optional)** By default, the `mpv-gif.lua` script saves GIFs to `C:/Program Files/mpv/gifs`. To modify this, open `gif.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `dir`, which is output directory for GIFs, as you please. For example `dir="C:/Users/USERNAME/Pictures/mpv-gifs"`.
 * **(Optional)** Make your own mpv configuration. You can do that by modifying my configuration files and/or making your own from scratch or modifying others' configurations. Check out the [useful links](#useful-links) section for mpv configuration guides.
-* You are now a proud user of the best media player
+* You're done. Go watch some videos!
 
 After following the steps above (without any optional steps), your mpv folder should have this structure (on Windows):
 
@@ -89,6 +91,7 @@ After following the steps above (without any optional steps), your mpv folder sh
 Here are the steps to install mpv and to use my configuration files on Arch Linux:
 * To install mpv, use the package manager that comes with your Linux distribution. The package name for mpv might also vary depending on your Linux distribution. Here, I will make Arch Linux, which comes with `pacman` as its package manager, as an example
 * Install mpv using `pacman`
+  
   ```
   sudo pacman -S mpv
   ```
@@ -98,7 +101,7 @@ Here are the steps to install mpv and to use my configuration files on Arch Linu
   * In order for the `mpv-gif.lua` script to work, it requires [FFmpeg](https://ffmpeg.org/) with libass enabled and accessible via terminal. See the [installation instructions](https://github.com/Scheliux/mpv-gif-generator#installation) from the script's source repository for further info.
   * **(Optional)** By default, the `mpv-gif.lua` script saves GIFs to `~/Videos/mpv-gifs`. To modify this, open `gif.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `dir`, which is output directory for GIFs, as you please. For example `dir="~/Videos"`.
 * **(Optional)** Make your own mpv configuration. You can do that by modifying my configuration files and/or making your own from scratch or modifying others' configurations. Check out the [useful links](#useful-links) section for mpv configuration guides.
-* You are now a proud user of the best media player
+* You're done. Go watch some videos!
 
 ## Scripts
 
