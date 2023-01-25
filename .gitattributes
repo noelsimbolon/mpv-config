@@ -1,0 +1,6 @@
+# Treats all of the paths/files below as vendored
+# and therefore are not included in the language
+# statistics for the repository
+shaders/*.glsl linguist-vendored
+shaders/*.hook linguist-vendored
+scripts/* linguist-vendored
