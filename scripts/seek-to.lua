@@ -1,4 +1,5 @@
 -- Original script from https://github.com/occivink/mpv-scripts/blob/master/scripts/seek-to.lua
+-- prerequisite: xclip (clipboard CLI interface) installed
 
 local assdraw = require 'mp.assdraw'
 local utils = require 'mp.utils'
