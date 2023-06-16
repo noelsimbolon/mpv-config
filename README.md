@@ -12,10 +12,11 @@ This repo contains my personal mpv configurations and scripts that I use and are
 
 ## Preview
 
-[![preview.png](https://i.postimg.cc/4yXJCQr2/preview.png)](https://postimg.cc/ZBDkppY6)
 [![preview-2.png](https://i.postimg.cc/Kvy92sp8/preview-2.png)](https://postimg.cc/K4J77Qy6)
 
-## Installation (on Windows)
+## Installation
+
+### Windows
 
 Here are the steps to install mpv and to use my configuration files on Windows:
 * Download the latest 64bit mpv Windows build by shinchiro from [mpv.io/installation](https://mpv.io/installation/) or directly from [here](https://sourceforge.net/projects/mpv-player-windows/files/) and extract it wherever you please. This is now your mpv folder
@@ -86,15 +87,23 @@ After following the steps above (without any optional steps), your mpv folder sh
 └── updater.bat                               # Run this with administrator priviledges to update your mpv to the latest version
 ```
 
-## Installation (on Arch Linux)
+### Linux
 
-Here are the steps to install mpv and to use my configuration files on Arch Linux:
-* To install mpv, use the package manager that comes with your Linux distribution. The package name for mpv might also vary depending on your Linux distribution. Here, I will make Arch Linux, which comes with `pacman` as its package manager, as an example
-* Install mpv using `pacman`
+Here are the steps to install mpv and to use my configuration files on Linux:
+
+* Install mpv and xclip (clipboard CLI interface) using the package manager that comes with your Linux distribution. xclip is needed for [copy-time.lua](https://github.com/noelsimbolon/mpv-config/blob/linux/scripts/copy-time.lua) and [seek-to.lua](https://github.com/noelsimbolon/mpv-config/blob/linux/scripts/seek-to.lua) scripts to work properly. The package name for mpv and xclip might also vary depending on your Linux distribution. Here, I will make Arch Linux, that comes with `pacman` as its package manager, as an example
   
   ```
-  sudo pacman -S mpv
+  sudo pacman -S mpv xclip
   ```
+
+  If you, for example, use Fedora Linux, that comes with `dnf` as its package manager, you can install mpv and xclip with the following command instead.
+  ```
+  sudo dnf install mpv xclip
+  ```
+
+  If you use other Linux distributions, please refer to the documentation of your Linux distribution's package manager on how to install packages.
+
 * Download the `linux.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your standard mpv configuration directory which is `~/.config/mpv`
 * To make some scripts work, you need to modify them from the release a little bit:
   * For `discord.lua` to work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path (not a relative path) to `mpv-discord` executable binary. For example `binary_path=/home/USER/.config/mpv/bin/mpv-discord`. Make sure you're not using any quotation marks before and after the path.
