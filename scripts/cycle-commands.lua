@@ -26,52 +26,33 @@
     unless one binds the exact same command string (including spacing)
 ]=====]--
 
-
+local mp = require 'mp'
 local msg = require 'mp.msg'
 
---keeps track of commands and iterators
-local cmd = {}
+--keeps track of the current position for a specific cycle
+local iterators = {}
 
---[=====[
+--main function to identify and run the cycles
+local function main(...)
+    local commands = {...}
 
-    the script stores the command in an array of command strings
-    the table is in the format:
-        table[full string].table[cycle]
-        table[full string].iterator
+    --to identify the specific cycle we'll concatenate all the strings together to use as our table key
+    local str = table.concat(commands, " | ")
+    msg.trace('recieved:', str)
 
-]=====]--
-function main(...)
-    --to identify the specific cycle we'll concatenate all the strings together to use
-    --as our table key
-    local str = ""
-    for _,v in ipairs({...}) do
-        str = str .. v .. " | "
-    end
-    msg.debug('recieved: ' .. str)
-
-    --if there is nothing saved for the current string, then runs through the process of storing the commands in the table
-    if cmd[str] == nil then
-        msg.verbose('unknown cycle, creating command table')
-        cmd[str] = {}
-        cmd[str].iterator = 0
-        msg.verbose('parsing table for: ' .. str)
-        cmd[str].table = {...}
+    if iterators[str] == nil then
+        msg.debug('unknown cycle, creating iterator')
+        iterators[str] = 1
+    else
+        iterators[str] = iterators[str] + 1
+        if iterators[str] > #commands then iterators[str] = 1 end
     end
 
-    --moves the iterator forward
-    cmd[str].iterator = cmd[str].iterator + 1
-    if cmd[str].iterator > #cmd[str].table then
-        msg.verbose('reached end of cycle, wrapping back to start')
-        cmd[str].iterator = 1
-    end
-
-    local i = cmd[str].iterator
-
-    --runs each command in the cycle
-    --mp.command shouldrun the commands exactly as if they were entered in
-    --input.conf. This should provide universal support for all input.conf command syntax
-    msg.verbose('sending commands: ' .. cmd[str].table[i])
-    mp.command(cmd[str].table[i])
+    --mp.command should run the commands exactly as if they were entered in input.conf.
+    --This should provide universal support for all input.conf command syntax
+    local cmd = commands[ iterators[str] ]
+    msg.verbose('sending command:', cmd)
+    mp.command(cmd)
 end
 
 mp.register_script_message('cycle-commands', main)
