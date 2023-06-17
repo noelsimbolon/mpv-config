@@ -1,7 +1,9 @@
--- Original script from https://github.com/occivink/mpv-scripts/blob/master/scripts/seek-to.lua
+-- Source: https://github.com/dexeonify/mpv-config/blob/main/scripts/seek-to.lua
+-- with modifications
 
 local assdraw = require 'mp.assdraw'
 local utils = require 'mp.utils'
+local msg = require 'mp.msg'
 local active = false
 local cursor_position = 1
 local time_scale = {60*60*10, 60*60, 60*10, 60, 10, 1, 0.1, 0.01, 0.001}
@@ -163,8 +165,14 @@ function paste_timestamp()
         capture_stderr = true
     })
 
+    -- error handling
     if not clipboard.error then
         timestamp = clipboard.stdout
+    else
+        msg.error("Error getting data from clipboard:")
+        msg.error("  stderr: " .. clipboard.stderr)
+        msg.error("  stdout: " .. clipboard.stdout)
+        return
     end
 
     -- find timestamp from clipboard
@@ -174,9 +182,11 @@ function paste_timestamp()
     if match ~= nil then
         mp.osd_message("Timestamp pasted: " .. match)
         mp.commandv("osd-bar", "seek", match, "absolute")
+    else
+        msg.warn("No pastable timestamp found!")
     end
 end
 
 -- keybindings are set in input.conf
 mp.add_key_binding(nil, "toggle-seeker", function() if active then set_inactive() else set_active() end end)
-mp.add_key_binding("Ctrl+v", "paste-timestamp", paste_timestamp)
+mp.add_key_binding(nil, "paste-timestamp", paste_timestamp)
