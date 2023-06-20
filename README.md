@@ -21,7 +21,7 @@ This repo contains my personal mpv configurations and scripts that I use and are
 Here are the steps to install mpv and to use my configuration files on Windows:
 * Download the latest 64bit mpv Windows build by shinchiro from [mpv.io/installation](https://mpv.io/installation/) or directly from [here](https://sourceforge.net/projects/mpv-player-windows/files/) and extract it wherever you please. This is now your mpv folder
 * Run `mpv-install.bat`, which is located in `installer` folder, with administrator priviledges by right-clicking and selecting Run as administrator
-* Download the `windows.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (**this is important**) and is located at the same directory as `mpv.exe`
+* Download the `mpv-config-windows.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (**this is important**) and is located at the same directory as `mpv.exe`
 * To make some scripts work, you need to modify them from the release a little bit:
   * For `discord.lua` to work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path (not a relative path) to `mpv-discord.exe`. For example `binary_path=C:\YOUR\MPV\FOLDER\PATH\portable_config\bin\mpv-discord.exe`. Make sure you're not using any quotation marks before and after the path.
   * In order for the `mpv-gif.lua` script to work, it requires [FFmpeg](https://ffmpeg.org/) with libass enabled and accessible via terminal. See the [installation instructions](https://github.com/Scheliux/mpv-gif-generator#installation) from the script's source repository for further info.
@@ -46,7 +46,7 @@ Here are the steps to install mpv and to use my configuration files on Linux:
 
   If you use other Linux distributions, please refer to the documentation of your Linux distribution's package manager on how to install packages.
 
-* Download the `linux.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your standard mpv configuration directory which is `~/.config/mpv`
+* Download the `mpv-config-linux.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your standard mpv configuration directory which is `~/.config/mpv`
 * To make some scripts work, you need to modify them from the release a little bit:
   * For `discord.lua` to work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path (not a relative path) to `mpv-discord` executable binary. For example `binary_path=/home/USER/.config/mpv/bin/mpv-discord`. Make sure you're not using any quotation marks before and after the path.
   * In order for the `mpv-gif.lua` script to work, it requires [FFmpeg](https://ffmpeg.org/) with libass enabled and accessible via terminal. See the [installation instructions](https://github.com/Scheliux/mpv-gif-generator#installation) from the script's source repository for further info.
