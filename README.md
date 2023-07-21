@@ -23,7 +23,6 @@ Here are the steps to install mpv and to use my configuration files on Windows:
 * Run `mpv-install.bat`, which is located in `installer` folder, with administrator priviledges by right-clicking and selecting Run as administrator
 * Download the `mpv-config-windows.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your mpv folder. Make sure the configuration folder name is `portable_config` (**this is important**) and is located at the same directory as `mpv.exe`
 * To make some scripts work, you need to modify them from the release a little bit:
-  * For `discord.lua` to work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path (not a relative path) to `mpv-discord.exe`. For example `binary_path=C:\YOUR\MPV\FOLDER\PATH\portable_config\bin\mpv-discord.exe`. Make sure you're not using any quotation marks before and after the path.
   * In order for the `mpv-gif.lua` script to work, it requires [FFmpeg](https://ffmpeg.org/) with libass enabled and accessible via terminal. See the [installation instructions](https://github.com/Scheliux/mpv-gif-generator#installation) from the script's source repository for further info.
   * **(Optional)** By default, the `mpv-gif.lua` script saves GIFs to `C:/Program Files/mpv/gifs`. To modify this, open `gif.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `dir`, which is output directory for GIFs, as you please. For example `dir="C:/Users/USERNAME/Pictures/mpv-gifs"`.
 * **(Optional)** Make your own mpv configuration. You can do that by modifying my configuration files and/or making your own from scratch or modifying others' configurations. Check out the [useful links](#useful-links) section for mpv configuration guides.
@@ -48,7 +47,6 @@ Here are the steps to install mpv and to use my configuration files on Linux:
 
 * Download the `mpv-config-linux.zip` file from this repo's [latest release](https://github.com/noelsimbolon/mpv-config/releases/latest) and extract it to your standard mpv configuration directory which is `~/.config/mpv`
 * To make some scripts work, you need to modify them from the release a little bit:
-  * For `discord.lua` to work, open `discord.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `binary_path` which is the full path (not a relative path) to `mpv-discord` executable binary. For example `binary_path=/home/USER/.config/mpv/bin/mpv-discord`. Make sure you're not using any quotation marks before and after the path.
   * In order for the `mpv-gif.lua` script to work, it requires [FFmpeg](https://ffmpeg.org/) with libass enabled and accessible via terminal. See the [installation instructions](https://github.com/Scheliux/mpv-gif-generator#installation) from the script's source repository for further info.
   * **(Optional)** By default, the `mpv-gif.lua` script saves GIFs to `~/Videos/mpv-gifs`. To modify this, open `gif.conf`, which is located in `portable_config/script-opts` folder, with a text editor and specify the `dir`, which is output directory for GIFs, as you please. For example `dir="~/Videos"`.
 * **(Optional)** Make your own mpv configuration. You can do that by modifying my configuration files and/or making your own from scratch or modifying others' configurations. Check out the [useful links](#useful-links) section for mpv configuration guides.
@@ -75,10 +73,6 @@ Scripts used:
 * [cycle-profile.lua](https://github.com/noelsimbolon/mpv-config/blob/linux/scripts/cycle-profile.lua) —
   [source](https://github.com/CogentRedTester/mpv-scripts#cycle-profile)\
   Cycles through a list of profiles sent via a script message and prints the profile-desc to the OSD. More details at the top of the file.
-
-* [mpv-discord.lua](https://github.com/noelsimbolon/mpv-config/blob/linux/scripts/discord.lua) —
-  [source](https://github.com/tnychn/mpv-discord)\
-  A cross-platform Discord Rich Presence integration for mpv with no external dependencies. Consists of a Go binary for updating the presence and a Lua script for launching it.
 
 * [mordenx.lua](https://github.com/noelsimbolon/mpv-config/blob/linux/scripts/mordenx.lua) —
   [source](https://github.com/cyl0/mpv-osc-morden-x)\
