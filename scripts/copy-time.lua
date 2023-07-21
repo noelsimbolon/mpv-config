@@ -1,4 +1,5 @@
--- copy-time (Windows version)
+-- copy-time (Linux version)
+-- Requires xclip installed
 
 -- Copies current timecode in HH:MM:SS.MS format to clipboard
 
@@ -9,15 +10,9 @@
 
 require "mp"
 
-function set_clipboard (text)
-  local echo
-  if text ~= "" then
-    for i = 1, 2 do text = text:gsub("[%^&\\<>|]", "^%0") end
-    echo = "(echo " .. text:gsub("\n", " & echo ") .. ")"
-  else
-    echo = "echo:"
-  end
-  mp.commandv("run", "cmd.exe", "/d", "/c", echo .. " | clip")
+local function set_clipboard(text)
+  command = string.format("echo -n %s | xclip -selection clipboard", text)
+  mp.commandv("run", "/bin/bash", "-c",  command)
 end
 
 function copy_time()
