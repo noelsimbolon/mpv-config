@@ -14,6 +14,7 @@ local opts = {
     -- showspectrum
     -- showcqtbar
     -- showwaves
+    -- showvolume
 
     quality = "medium",
     -- verylow
@@ -45,6 +46,7 @@ local visualizer_name_list = {
     "showspectrum",
     "showcqtbar",
     "showwaves",
+    "showvolume",
 }
 
 local axis_0 = "image/png;base64," ..
@@ -135,14 +137,6 @@ local axis_1 = "image/png;base64," ..
 
 local options = require 'mp.options'
 local msg     = require 'mp.msg'
-
-options.read_options(opts)
-opts.height = math.min(12, math.max(4, opts.height))
-opts.height = math.floor(opts.height)
-
-if not opts.forcewindow and mp.get_property('force-window') == "no" then
-    return
-end
 
 local function get_visualizer(name, quality, vtrack)
     local w, h, fps
@@ -259,6 +253,18 @@ local function get_visualizer(name, quality, vtrack)
                 "r              =" .. fps .. ":" ..
                 "mode           = p2p," ..
             "format             = rgb0 [vo]"
+    elseif name == "showvolume" then
+        return "[aid1] asplit [ao]," ..
+            "showvolume          =" ..
+            "w                   =" .. w/2 .. ":" ..
+            "h                   =" .. h/8 .. ":" ..
+            "r                   =" .. 10 .. ":" ..
+            "m                   =p" .. ":" ..
+            "t                   =false" .. ":" ..
+            "f                   =0.8" .. ":" ..
+            "ds                  =log" .. ":" ..
+            "dm                  =1," ..
+            "format             = rgb0 [vo]"
     elseif name == "off" then
         local hasvideo = false
         for id, track in ipairs(mp.get_property_native("track-list")) do
@@ -282,8 +288,8 @@ local function get_visualizer(name, quality, vtrack)
     return ""
 end
 
-local function select_visualizer(vtrack)
-    if opts.mode == "off" then
+local function select_visualizer(vtrack, atrack)
+    if atrack == nil or opts.mode == "off" then
         return ""
     elseif opts.mode == "force" then
         return get_visualizer(opts.name, opts.quality, vtrack)
@@ -323,11 +329,19 @@ local function visualizer_hook()
         end
     end
 
-    local lavfi = select_visualizer(vtrack)
+    local lavfi = select_visualizer(vtrack, atrack)
     --prevent endless loop
-    if lavfi ~= mp.get_property("options/lavfi-complex", "") then
-        mp.set_property("options/lavfi-complex", lavfi)
+    if lavfi ~= "" and lavfi ~= mp.get_property("lavfi-complex", "") then
+        mp.set_property("file-local-options/lavfi-complex", lavfi)
     end
+end
+
+options.read_options(opts, nil, visualizer_hook)
+opts.height = math.min(12, math.max(4, opts.height))
+opts.height = math.floor(opts.height)
+
+if not opts.forcewindow and mp.get_property('force-window') == "no" then
+    return
 end
 
 mp.add_hook("on_preloaded", 50, visualizer_hook)
@@ -349,4 +363,5 @@ local function cycle_visualizer()
     visualizer_hook()
 end
 
+-- keybindings are set in input.conf
 mp.add_key_binding(cycle_key, "cycle-visualizer", cycle_visualizer)

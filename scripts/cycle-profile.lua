@@ -3,103 +3,113 @@
     available at: https://github.com/CogentRedTester/mpv-scripts
 
     syntax:
-        script-message cycle-profiles "profile1;profile2;profile3"
+        script-message cycle-profiles profile1 profile2 "profile 3"
 
-    You must use semicolons to separate the profiles, do not include any spaces that are not part of the profile name.
-    The script will print the profile description to the screen when switching, if there is no profile description, then it just prints the name
+    You must put the name of the profile in quotes if it contains special characters like spaces.
+
+    The script will print the profile description to the screen when switching,
+    if there is no profile description, then it just prints the name.
+    You can disable osd messages with the `cycle_profiles-osd` script opt,
+    and you can force whether or not to show the osd messages by using:
+        script-message cycle-profiles/osd profile1 profile2
+        script-message cycle-profiles/no_osd profile1 profile2
+
+    If the `profile-restore` option is set on a profile, then cycling
+    off that profile will run the restore operation.
+    Cycling to an empty profile ("") will restore the previous profile
+    without enabling a new one, so to toggle a profile you can do:
+
+        script-message cycle-profiles profile1 ""
+    
+    Note that the script will not detect if a profile has already
+    been applied in any other manner.
 ]]--
 
---change this to change what character separates the profile names
-seperator = ";"
+local o = {
+    -- print messages to the osd when cycling profiles
+    osd = true,
 
-msg = require 'mp.msg'
+    -- prefer the profile-desc string over the profile name
+    -- when printing osd messages
+    prefer_description = true,
 
---splits the profiles string into an array of profile names
---function taken from: https://stackoverflow.com/questions/1426954/split-string-in-lua/7615129#7615129
-function mysplit (inputstr, sep)
-    if sep == nil then
-            sep = "%s"
-    end
-    local t={}
-    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-            table.insert(t, str)
-    end
-    return t
-end
+    -- the format string to use for the osd message
+    -- see: https://www.lua.org/manual/5.1/manual.html#pdf-string.format
+    osd_format_string = '%s',
+
+    -- the string to show when applying an empty profile ("")
+    osd_empty_string = 'restoring profiles'
+}
+
+local mp = require 'mp'
+local msg = require 'mp.msg'
+local opts = require 'mp.options'
+
+opts.read_options(o, 'cycle_profiles')
 
 --table of all available profiles and options
-profileList = mp.get_property_native('profile-list')
+local profile_map = {}
 
 --keeps track of current profile for every unique cycle
-iterator = {}
+local iterators = {}
 
---stores descriptions for profiles
---once requested a description is stored here so it does not need to be found again
-profilesDescs = {}
+local function setup_profile_list()
+    local profile_list = mp.get_property_native('profile-list', {})
 
---if trying to cycle to an unknown profile this function is run to find a description to print
-function findDesc(profile)
-    msg.verbose('unknown profile ' .. profile .. ', searching for description')
-
-    for i = 1, #profileList, 1 do
-        if profileList[i]['name'] == profile then
-            msg.verbose('profile found')
-            local desc = profileList[i]['profile-desc']
-            
-            if desc ~= nil then
-                msg.verbose('description found')
-                profilesDescs[profile] = desc
-            else
-                msg.verbose('no description, will use name')
-                profilesDescs[profile] = profile
-            end
-            return
-        end
+    for _, profile in ipairs(profile_list) do
+        profile_map[profile.name] = profile
     end
-
-    msg.verbose('profile not found')
-    profilesDescs[profile] = "no profile '" .. profile .. "'"
 end
 
---prints the profile description to the OSD
---if the profile has not been requested before during the session then it runs findDesc()
-function printProfileDesc(profile)
-    local desc = profilesDescs[profile]
-    if desc == nil then
-        findDesc(profile)
-        desc = profilesDescs[profile]
-    end
+local function main(osd, ...)
+    local profiles = {...}
+    local key = table.concat(profiles, ';')
+    local prev_iterator = iterators[key]
 
-    msg.verbose('profile description: ' .. desc)
-    mp.osd_message(desc)
-end
-
-function main(profileStr)
-    --if there is not already an iterator for this cycle then it creates one
-    if iterator[profileStr] == nil then
-        msg.verbose('unknown cycle, creating new iterator')
-        iterator[profileStr] = 1
+    if iterators[key] == nil then
+        msg.debug('unknown cycle, creating iterator')
+        iterators[key] = 1
+    else
+        iterators[key] = iterators[key] + 1
+        if iterators[key] > #profiles then iterators[key] = 1 end
     end
-    local i = iterator[profileStr]
 
     --converts the string into an array of profile names
-    local profiles = mysplit(profileStr, seperator)
-    msg.verbose('cycling ' .. tostring(profiles))
-    msg.verbose("number of profiles: " .. tostring(#profiles))
+    msg.verbose('cycling', key)
+    msg.verbose('number of profiles:', #profiles)
+
+    local prev_profile = profiles[prev_iterator]
+    local new_profile = profiles[iterators[key]]
+
+    -- restore the previous profile
+    if prev_iterator and profile_map[prev_profile] and profile_map[prev_profile]['profile-restore'] then
+        msg.info('restoring profile', prev_profile)
+        mp.commandv('apply-profile', prev_profile, 'restore')
+    end
+
+    -- abort if the new profile is an empty string
+    if new_profile == '' then
+        if osd then mp.osd_message(o.osd_empty_string) end
+        return
+    end
+
+    -- abort if the new profile is unknown
+    if not profile_map[new_profile] then
+        msg.error('tried to enable unknown profile "'..new_profile..'"')
+        mp.osd_message('unknown profile: '..new_profile)
+        return
+    end
 
     --sends the command to apply the profile
-    msg.info("applying profile " .. profiles[i])
-    mp.commandv('apply-profile', profiles[i])
+    msg.info('applying profile', new_profile)
+    mp.commandv('apply-profile', new_profile)
 
     --prints the profile description to the OSD
-    printProfileDesc(profiles[i])
-
-    --moves the iterator
-    iterator[profileStr] = iterator[profileStr] + 1
-    if iterator[profileStr] > #profiles then
-        msg.verbose('reached end of profiles, wrapping back to start')
-        iterator[profileStr] = 1
-    end
+    local desc = o.prefer_description and profile_map[new_profile]['profile-desc'] or new_profile
+    if osd then mp.osd_message(o.osd_format_string:format(desc)) end
 end
 
-mp.register_script_message('cycle-profiles', main)
+setup_profile_list()
+mp.register_script_message('cycle-profiles', function(...) main(o.osd, ...) end)
+mp.register_script_message('cycle-profiles/osd', function(...) main(true, ...) end)
+mp.register_script_message('cycle-profiles/no_osd', function(...) main(false, ...) end)

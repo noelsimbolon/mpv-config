@@ -1,5 +1,4 @@
--- sponsorblock-minimal.lua
--- source: https://codeberg.org/jouni/mpv_sponsorblock_minimal
+-- sponsorblock_minimal.lua
 --
 -- This script skips sponsored segments of YouTube videos
 -- using data from https://github.com/ajayyy/SponsorBlock
@@ -10,11 +9,24 @@ local utils = require 'mp.utils'
 local ON = false
 local ranges = nil
 
+local category_names = {
+	["Chapter"] = "chapter",
+	["Endcards/Credits"] = "outro",
+	["Filler Tangent"] = "filler",
+	["Highlight"] = "poi_highlight",
+	["Interaction Reminder"] = "interaction",
+	["Intermission/Intro Animation"] = "intro",
+	["Non-Music Section"] = "music_offtopic",
+	["Preview/Recap"] = "preview",
+	["Sponsor"] = "sponsor",
+	["Unpaid/Self Promotion"] = "selfpromo",
+}
+
 local options = {
 	server = "https://sponsor.ajay.app/api/skipSegments",
 
 	-- Categories to fetch and skip
-	categories = '"sponsor"',
+	categories = "sponsor",
 
 	-- Set this to "true" to use sha256HashPrefix instead of videoID
 	hash = ""
@@ -22,44 +34,9 @@ local options = {
 
 opt.read_options(options)
 
-function get_ranges(youtube_id, url)
-	local luacurl_available, cURL = pcall(require,'cURL')
-
-	local res = nil
-	if not(luacurl_available) then -- if Lua-cURL is not available on this system
-		local sponsors = mp.command_native{
-			name = "subprocess",
-			capture_stdout = true,
-			playback_only = false,
-			args = {"curl", "-L", "-s", "-g", url}
-		}
-		res = sponsors.stdout
-	else -- otherwise use Lua-cURL (binding to libcurl)
-		local buf={}
-		local c = cURL.easy_init()
-		c:setopt_followlocation(1)
-		c:setopt_url(url)
-		c:setopt_writefunction(function(chunk) table.insert(buf,chunk); return true; end)
-		c:perform()
-		res = table.concat(buf)
-	end
-
-	if res then
-		local json = utils.parse_json(res)
-		if type(json) == "table" then
-			if options.hash == "true" then
-				for _, i in pairs(json) do
-					if i.videoID == youtube_id then
-						return i.segments
-					end
-				end
-			else
-				return json
-			end
-		end
-	end
-
-	return nil
+local categories = {}
+for str in string.gmatch(string.lower(options.categories), "([^;]+)") do
+	categories[#categories + 1] = str
 end
 
 function skip_ads(name,pos)
@@ -79,7 +56,46 @@ function skip_ads(name,pos)
 	end
 end
 
-function file_loaded()
+function fetch_sponsor_segments(youtube_id)
+	local args = {"curl", "-L", "-s", "-G", "--data-urlencode", ("categories=%s"):format(utils.format_json(categories))}
+	local url = options.server
+	if options.hash == "true" then
+		local sha = mp.command_native{
+			name = "subprocess",
+			capture_stdout = true,
+			args = {"sha256sum"},
+			stdin_data = youtube_id
+		}
+		url = ("%s/%s"):format(url, string.sub(sha.stdout, 0, 4))
+	else
+		table.insert(args, "--data-urlencode")
+		table.insert(args, "videoID=" .. youtube_id)
+	end
+	table.insert(args, url)
+
+	local sponsors = mp.command_native{
+		name = "subprocess",
+		capture_stdout = true,
+		playback_only = false,
+		args = args
+	}
+	if sponsors.stdout then
+		local json = utils.parse_json(sponsors.stdout)
+		if type(json) == "table" then
+			if options.hash == "true" then
+				for _, i in pairs(json) do
+					if i.videoID == youtube_id then
+						return i.segments
+					end
+				end
+			else
+				return json
+			end
+		end
+	end
+end
+
+function fetch_ranges()
 	local video_path = mp.get_property("path", "")
 	local video_referer = string.match(mp.get_property("http-header-fields", ""), "Referer:([^,]+)") or ""
 
@@ -100,23 +116,53 @@ function file_loaded()
 		if youtube_id then break end
 	end
 
-	if not youtube_id or string.len(youtube_id) < 11 then return end
-	youtube_id = string.sub(youtube_id, 1, 11)
+	if youtube_id and string.len(youtube_id) >= 11 then
+		youtube_id = string.sub(youtube_id, 1, 11)
+		return fetch_sponsor_segments(youtube_id)
+	end
+end
 
-	local url = ""
-	if options.hash == "true" then
-		local sha = mp.command_native{
-			name = "subprocess",
-			capture_stdout = true,
-			args = {"sha256sum"},
-			stdin_data = youtube_id
-		}
-		url = ("%s/%s?categories=[%s]"):format(options.server, string.sub(sha.stdout, 0, 4), options.categories)
-	else
-		url = ("%s?videoID=%s&categories=[%s]"):format(options.server, youtube_id, options.categories)
+function get_ranges_from_chapters()
+	local skipped_categories = {}
+	for _, category in ipairs(categories) do
+		skipped_categories[category] = true
 	end
 
-	ranges = get_ranges(youtube_id, url)
+	local ranges = {}
+
+	local chapters = mp.get_property_native("chapter-list")
+	local duration = mp.get_property_native("duration")
+	local have_sponsorblock_chapters = false
+
+	for i, chapter in ipairs(chapters) do
+		local categories_string = string.match(chapter.title, "%[SponsorBlock%]:%s(.+)")
+
+		if categories_string then
+			have_sponsorblock_chapters = true
+
+			for category_name in string.gmatch(categories_string, "([^,]+),?%s?") do
+				local category = category_names[category_name]
+				if skipped_categories[category] then
+					local to = duration
+					if i < #chapters then
+						to = chapters[i+1].time
+					end
+					table.insert(ranges, {["segment"] = {chapter.time, to}, ["category"] = category})
+				end
+			end
+		end
+	end
+
+	if not have_sponsorblock_chapters then
+		return nil
+	end
+
+	return ranges
+end
+
+function file_loaded()
+	ranges = get_ranges_from_chapters() or fetch_ranges()
+
 	if ranges then
 		ON = true
 		mp.add_key_binding("b","sponsorblock",toggle)

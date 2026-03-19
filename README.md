@@ -64,7 +64,7 @@ Scripts from external sources:
 * autoload.lua ([source](https://github.com/mpv-player/mpv/blob/master/TOOLS/lua/autoload.lua))\
   Automatically load playlist entries before and after the currently playing file, by scanning the directory.
 
-* copy-time.lua ([source](https://github.com/linguisticmind/mpv-scripts/tree/master/copy-time))\
+* copy-timestamp.lua ([source](https://github.com/linguisticmind/mpv-scripts/tree/master/copy-timestamp))\
   Copies current timecode in HH:MM:SS.MS format to clipboard. Cross-platform (Mac, Windows, Linux).
 
 * cycle-commands.lua ([source](https://github.com/CogentRedTester/mpv-scripts#cycle-commands))\
